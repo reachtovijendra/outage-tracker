@@ -1,0 +1,185 @@
+/* PrimeNG Styles */
+@use 'primeicons/primeicons.css';
+
+/* Custom Variables */
+:root {
+  --app-font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Dark Mode Colors */
+.dark-mode {
+  --p-surface-0: #09090b;
+  --p-surface-50: #18181b;
+  --p-surface-100: #1f1f23;
+  --p-surface-200: #27272a;
+  --p-surface-300: #3f3f46;
+  --p-surface-400: #52525b;
+  --p-surface-500: #71717a;
+  --p-surface-600: #a1a1aa;
+  --p-surface-700: #3f3f46;
+  --p-surface-800: #18181b;
+  --p-surface-900: #0f0f12;
+  --p-surface-950: #09090b;
+  
+  --p-text-color: #fafafa;
+  --p-text-muted-color: #a1a1aa;
+  
+  --p-primary-50: #eef2ff;
+  --p-primary-100: #e0e7ff;
+  --p-primary-200: #c7d2fe;
+  --p-primary-300: #a5b4fc;
+  --p-primary-400: #818cf8;
+  --p-primary-500: #6366f1;
+  --p-primary-600: #4f46e5;
+  --p-primary-700: #4338ca;
+  --p-primary-800: #3730a3;
+  --p-primary-900: #312e81;
+  --p-primary-color: #818cf8;
+  --p-primary-contrast-color: #0f0f12;
+  
+  color-scheme: dark;
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--app-font-family);
+  background-color: var(--p-surface-950);
+  color: var(--p-text-color);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--p-surface-900);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--p-surface-600);
+  border-radius: 4px;
+  
+  &:hover {
+    background: var(--p-surface-500);
+  }
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid var(--p-primary-500);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--p-primary-500);
+  color: var(--p-primary-contrast-color);
+}
+
+/* PrimeNG Overrides */
+.p-dialog {
+  .p-dialog-header {
+    background: var(--p-surface-800);
+    border-bottom: 1px solid var(--p-surface-700);
+  }
+  
+  .p-dialog-content {
+    background: var(--p-surface-800);
+  }
+  
+  .p-dialog-footer {
+    background: var(--p-surface-800);
+    border-top: 1px solid var(--p-surface-700);
+  }
+}
+
+.p-toast {
+  .p-toast-message {
+    background: var(--p-surface-800);
+    border: 1px solid var(--p-surface-700);
+  }
+}
+
+.p-confirmdialog {
+  .p-dialog-header {
+    background: var(--p-surface-800);
+  }
+  
+  .p-dialog-content {
+    background: var(--p-surface-800);
+  }
+  
+  .p-dialog-footer {
+    background: var(--p-surface-800);
+  }
+}
+
+.p-dropdown-panel {
+  background: var(--p-surface-800);
+  border: 1px solid var(--p-surface-700);
+}
+
+.p-inputtext {
+  background: var(--p-surface-900);
+  border-color: var(--p-surface-700);
+  
+  &:hover {
+    border-color: var(--p-surface-600);
+  }
+  
+  &:focus {
+    border-color: var(--p-primary-500);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  }
+}
+
+.p-textarea {
+  background: var(--p-surface-900);
+  border-color: var(--p-surface-700);
+  
+  &:hover {
+    border-color: var(--p-surface-600);
+  }
+  
+  &:focus {
+    border-color: var(--p-primary-500);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  }
+}
+
+/* Button Focus States */
+.p-button:focus {
+  box-shadow: 0 0 0 2px var(--p-surface-900), 0 0 0 4px var(--p-primary-500);
+}
+
+/* Tooltip */
+.p-tooltip {
+  .p-tooltip-text {
+    background: var(--p-surface-700);
+    color: var(--p-text-color);
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');

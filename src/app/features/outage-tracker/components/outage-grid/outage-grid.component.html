@@ -1,0 +1,312 @@
+<p-toast />
+<p-confirmDialog />
+
+<div class="outage-grid-container">
+  <!-- Header with controls -->
+  <div class="grid-header">
+    <div class="header-left">
+      <h1>Outage Tracker</h1>
+      <span class="year-display">{{ trackerService.selectedYear() }}</span>
+    </div>
+    <div class="header-right">
+      <p-button 
+        icon="pi pi-plus" 
+        label="Add Category" 
+        severity="secondary"
+        (onClick)="openAddCategoryDialog()" />
+    </div>
+  </div>
+
+  <!-- Month Tabs -->
+  <div class="month-tabs">
+    @for (month of trackerService.monthNames; track month; let i = $index) {
+      <button 
+        class="month-tab"
+        [class.active]="trackerService.selectedMonth() === i + 1"
+        (click)="trackerService.selectMonth(i + 1)">
+        {{ month }}
+      </button>
+    }
+  </div>
+
+  <!-- Main Grid -->
+  <div class="grid-wrapper">
+    <table class="outage-table">
+      <thead>
+        <tr>
+          <th class="system-header">System</th>
+          @for (day of trackerService.daysArray(); track trackByDay($index, day)) {
+            <th class="day-header">{{ day }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of trackerService.categoriesWithApps(); track trackByCategory($index, category)) {
+          <!-- Category Row -->
+          <tr class="category-row">
+            <td 
+              class="category-cell" 
+              [attr.colspan]="trackerService.daysArray().length + 1">
+              <div class="category-content">
+                <span class="category-name">{{ category.name }}</span>
+                <div class="category-actions">
+                  <p-button 
+                    icon="pi pi-plus" 
+                    [rounded]="true" 
+                    [text]="true" 
+                    size="small"
+                    severity="secondary"
+                    pTooltip="Add Application"
+                    (onClick)="openAddAppDialog(category.id, $event)" />
+                  <p-button 
+                    icon="pi pi-pencil" 
+                    [rounded]="true" 
+                    [text]="true" 
+                    size="small"
+                    severity="secondary"
+                    pTooltip="Edit Category"
+                    (onClick)="openEditCategoryDialog(category, $event)" />
+                  <p-button 
+                    icon="pi pi-trash" 
+                    [rounded]="true" 
+                    [text]="true" 
+                    size="small"
+                    severity="danger"
+                    pTooltip="Delete Category"
+                    (onClick)="confirmDeleteCategory(category, $event)" />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <!-- Application Rows -->
+          @for (app of category.applications; track app.id) {
+            <tr class="app-row">
+              <td class="app-cell">
+                <div class="app-content">
+                  <span class="app-name">{{ app.name }}</span>
+                  <div class="app-actions">
+                    <p-button 
+                      icon="pi pi-pencil" 
+                      [rounded]="true" 
+                      [text]="true" 
+                      size="small"
+                      severity="secondary"
+                      pTooltip="Edit Application"
+                      (onClick)="openEditAppDialog(app.id, app.name, $event)" />
+                    <p-button 
+                      icon="pi pi-trash" 
+                      [rounded]="true" 
+                      [text]="true" 
+                      size="small"
+                      severity="danger"
+                      pTooltip="Delete Application"
+                      (onClick)="confirmDeleteApp(app.id, app.name, $event)" />
+                  </div>
+                </div>
+              </td>
+              @for (day of trackerService.daysArray(); track trackByDay($index, day)) {
+                <td 
+                  class="outage-cell"
+                  [class]="getOutageClass(app.id, day)"
+                  [pTooltip]="getOutageTooltip(app.id, day)"
+                  tooltipPosition="top"
+                  (click)="onCellClick(app.id, day, $event)"
+                  (contextmenu)="onCellRightClick($event, app.id, day)">
+                </td>
+              }
+            </tr>
+          }
+        }
+        
+        @if (trackerService.categoriesWithApps().length === 0) {
+          <tr>
+            <td colspan="32" class="empty-state">
+              <div class="empty-content">
+                <i class="pi pi-inbox"></i>
+                <p>No categories yet</p>
+                <p-button 
+                  label="Add Your First Category" 
+                  icon="pi pi-plus"
+                  (onClick)="openAddCategoryDialog()" />
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-box"></span>
+      <span>No Outage</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-box outage-partial"></span>
+      <span>Partial Outage</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-box outage-full"></span>
+      <span>Full Outage</span>
+    </div>
+    <div class="legend-hint">
+      <span>Click: toggle status | Ctrl+Click: edit details | Right-click: menu</span>
+    </div>
+  </div>
+</div>
+
+<!-- Add Category Dialog -->
+<p-dialog 
+  header="Add Category" 
+  [(visible)]="showAddCategoryDialog" 
+  [modal]="true"
+  [style]="{width: '400px'}">
+  <div class="dialog-content">
+    <label for="categoryName">Category Name</label>
+    <input 
+      id="categoryName"
+      type="text" 
+      pInputText 
+      [(ngModel)]="newCategoryName"
+      placeholder="e.g., Servicing Core"
+      (keyup.enter)="addCategory()"
+      class="w-full" />
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancel" 
+      severity="secondary" 
+      (onClick)="showAddCategoryDialog.set(false)" />
+    <p-button 
+      label="Add" 
+      icon="pi pi-check" 
+      (onClick)="addCategory()" />
+  </ng-template>
+</p-dialog>
+
+<!-- Edit Category Dialog -->
+<p-dialog 
+  header="Edit Category" 
+  [(visible)]="showEditCategoryDialog" 
+  [modal]="true"
+  [style]="{width: '400px'}">
+  <div class="dialog-content">
+    <label for="editCategoryName">Category Name</label>
+    <input 
+      id="editCategoryName"
+      type="text" 
+      pInputText 
+      [(ngModel)]="editCategoryName"
+      (keyup.enter)="saveCategory()"
+      class="w-full" />
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancel" 
+      severity="secondary" 
+      (onClick)="showEditCategoryDialog.set(false)" />
+    <p-button 
+      label="Save" 
+      icon="pi pi-check" 
+      (onClick)="saveCategory()" />
+  </ng-template>
+</p-dialog>
+
+<!-- Add Application Dialog -->
+<p-dialog 
+  header="Add Application" 
+  [(visible)]="showAddAppDialog" 
+  [modal]="true"
+  [style]="{width: '400px'}">
+  <div class="dialog-content">
+    <label for="appName">Application Name</label>
+    <input 
+      id="appName"
+      type="text" 
+      pInputText 
+      [(ngModel)]="newAppName"
+      placeholder="e.g., Spectrum"
+      (keyup.enter)="addApplication()"
+      class="w-full" />
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancel" 
+      severity="secondary" 
+      (onClick)="showAddAppDialog.set(false)" />
+    <p-button 
+      label="Add" 
+      icon="pi pi-check" 
+      (onClick)="addApplication()" />
+  </ng-template>
+</p-dialog>
+
+<!-- Edit Application Dialog -->
+<p-dialog 
+  header="Edit Application" 
+  [(visible)]="showEditAppDialog" 
+  [modal]="true"
+  [style]="{width: '400px'}">
+  <div class="dialog-content">
+    <label for="editAppName">Application Name</label>
+    <input 
+      id="editAppName"
+      type="text" 
+      pInputText 
+      [(ngModel)]="editAppName"
+      (keyup.enter)="saveApplication()"
+      class="w-full" />
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancel" 
+      severity="secondary" 
+      (onClick)="showEditAppDialog.set(false)" />
+    <p-button 
+      label="Save" 
+      icon="pi pi-check" 
+      (onClick)="saveApplication()" />
+  </ng-template>
+</p-dialog>
+
+<!-- Outage Details Dialog -->
+<p-dialog 
+  header="Outage Details" 
+  [(visible)]="showOutageDialog" 
+  [modal]="true"
+  [style]="{width: '450px'}">
+  <div class="dialog-content">
+    <div class="field">
+      <label for="outageStatus">Status</label>
+      <p-select 
+        id="outageStatus"
+        [options]="outageStatusOptions" 
+        [(ngModel)]="outageDialogStatus"
+        optionLabel="label"
+        optionValue="value"
+        [style]="{width: '100%'}" />
+    </div>
+    <div class="field">
+      <label for="outageNotes">Notes</label>
+      <textarea 
+        id="outageNotes"
+        pTextarea 
+        [(ngModel)]="outageDialogNotes"
+        rows="4"
+        placeholder="Add details about the outage..."
+        class="w-full"></textarea>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancel" 
+      severity="secondary" 
+      (onClick)="showOutageDialog.set(false)" />
+    <p-button 
+      label="Save" 
+      icon="pi pi-check" 
+      (onClick)="saveOutageDialog()" />
+  </ng-template>
+</p-dialog>
+
