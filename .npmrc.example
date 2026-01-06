@@ -1,0 +1,14 @@
+# JFrog Artifactory Configuration for Local Development
+# Copy this file to .npmrc and replace the placeholders with your credentials
+
+registry=https://aca.jfrog.io/artifactory/api/npm/npm-virtual/
+//aca.jfrog.io/artifactory/api/npm/npm-virtual/:_auth=YOUR_BASE64_ENCODED_TOKEN
+//aca.jfrog.io/artifactory/api/npm/npm-virtual/:always-auth=true
+//aca.jfrog.io/artifactory/api/npm/npm-virtual/:email=your.email@aca.com
+
+# To get your auth token:
+# 1. Go to JFrog Artifactory UI
+# 2. Click on your profile -> Set Me Up
+# 3. Select npm and generate the token
+# 4. Base64 encode: username:api_key
+

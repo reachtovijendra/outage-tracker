@@ -1,0 +1,3 @@
+# Public npm registry for Vercel deployment
+registry=https://registry.npmjs.org/
+
