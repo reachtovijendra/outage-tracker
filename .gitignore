@@ -38,9 +38,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Environment files with secrets (uncomment for production)
-# src/environments/environment.ts
-# src/environments/environment.prod.ts
+# Environment files with secrets
+src/environments/environment.ts
+src/environments/environment.prod.ts
 
 # Firebase
 .firebase/
