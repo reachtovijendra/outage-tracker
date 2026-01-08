@@ -271,6 +271,62 @@ body {
   }
 }
 
+/* Dialog Button Styling */
+.p-dialog .p-dialog-content .p-button,
+.p-dialog .p-dialog-footer .p-button {
+  padding: 0.625rem 1.25rem !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  min-width: 5rem;
+  
+  &.p-button-secondary {
+    background: #e4e4e7 !important;
+    border: 1px solid #d4d4d8 !important;
+    color: #18181b !important;
+    
+    &:hover {
+      background: #d4d4d8 !important;
+      border-color: #a1a1aa !important;
+    }
+  }
+  
+  &:not(.p-button-secondary):not(.p-button-text):not(.p-button-icon-only) {
+    background: #18181b !important;
+    border: 1px solid #27272a !important;
+    color: #fafafa !important;
+    
+    &:hover {
+      background: #27272a !important;
+    }
+  }
+}
+
+/* Dark mode dialog buttons */
+.dark-mode .p-dialog .p-dialog-content .p-button,
+.dark-mode .p-dialog .p-dialog-footer .p-button {
+  &.p-button-secondary {
+    background: #3f3f46 !important;
+    border-color: #52525b !important;
+    color: #fafafa !important;
+    
+    &:hover {
+      background: #52525b !important;
+      border-color: #71717a !important;
+    }
+  }
+  
+  &:not(.p-button-secondary):not(.p-button-text):not(.p-button-icon-only) {
+    background: #fafafa !important;
+    border-color: #e4e4e7 !important;
+    color: #18181b !important;
+    
+    &:hover {
+      background: #f4f4f5 !important;
+    }
+  }
+}
+
 /* Button Focus States */
 .p-button:focus {
   box-shadow: 0 0 0 2px var(--p-surface-900), 0 0 0 4px var(--p-primary-500);
