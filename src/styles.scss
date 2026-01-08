@@ -388,6 +388,40 @@ body {
   }
 }
 
+/* Header Action Button */
+.header-action-btn.p-button {
+  background: #e4e4e7 !important;
+  border: 1px solid #d4d4d8 !important;
+  color: #18181b !important;
+  padding: 0.625rem 1.25rem !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  
+  &:hover {
+    background: #d4d4d8 !important;
+    border-color: #a1a1aa !important;
+  }
+  
+  .p-button-icon {
+    color: #18181b !important;
+  }
+}
+
+.dark-mode .header-action-btn.p-button {
+  background: #fafafa !important;
+  border-color: #e4e4e7 !important;
+  color: #18181b !important;
+  
+  &:hover {
+    background: #f4f4f5 !important;
+  }
+  
+  .p-button-icon {
+    color: #18181b !important;
+  }
+}
+
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
