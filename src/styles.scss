@@ -215,5 +215,38 @@ body {
   }
 }
 
+/* Toggle Switch */
+.p-toggleswitch {
+  width: 2.75rem;
+  height: 1.5rem;
+  
+  .p-toggleswitch-slider {
+    background: var(--p-surface-400);
+    border-radius: 1rem;
+    transition: background-color 0.2s ease;
+    
+    &::before {
+      width: 1.125rem;
+      height: 1.125rem;
+      background: white;
+      border-radius: 50%;
+      top: 50%;
+      left: 0.1875rem;
+      transform: translateY(-50%);
+      margin: 0;
+      transition: left 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  &.p-toggleswitch-checked .p-toggleswitch-slider {
+    background: var(--p-primary-500);
+    
+    &::before {
+      left: calc(100% - 1.3125rem);
+    }
+  }
+}
+
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
