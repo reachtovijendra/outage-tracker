@@ -217,32 +217,41 @@ body {
 
 /* Toggle Switch */
 .p-toggleswitch {
-  width: 2.75rem;
-  height: 1.5rem;
+  width: 2.75rem !important;
+  height: 1.5rem !important;
+  position: relative;
   
   .p-toggleswitch-slider {
-    background: var(--p-surface-400);
-    border-radius: 1rem;
-    transition: background-color 0.2s ease;
-    
-    &::before {
-      width: 1.125rem;
-      height: 1.125rem;
-      background: white;
-      border-radius: 50%;
-      top: 50%;
-      left: 0.1875rem;
-      transform: translateY(-50%);
-      margin: 0;
-      transition: left 0.2s ease;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    }
+    background: var(--p-surface-400) !important;
+    border-radius: 0.75rem !important;
+    width: 100% !important;
+    height: 100% !important;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.125rem;
+    box-sizing: border-box;
   }
   
-  &.p-toggleswitch-checked .p-toggleswitch-slider {
-    background: var(--p-primary-500);
+  .p-toggleswitch-handle {
+    width: 1.125rem !important;
+    height: 1.125rem !important;
+    background: white !important;
+    border-radius: 50% !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+    position: absolute;
+    left: 0.1875rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  &.p-toggleswitch-checked {
+    .p-toggleswitch-slider {
+      background: var(--p-primary-500) !important;
+    }
     
-    &::before {
+    .p-toggleswitch-handle {
       left: calc(100% - 1.3125rem);
     }
   }
