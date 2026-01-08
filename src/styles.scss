@@ -129,18 +129,49 @@ body {
 
 /* PrimeNG Overrides */
 .p-dialog {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  
   .p-dialog-header {
     background: var(--p-surface-800);
     border-bottom: 1px solid var(--p-surface-700);
+    padding: 1.25rem 1.5rem;
+    
+    .p-dialog-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
   }
   
   .p-dialog-content {
     background: var(--p-surface-800);
+    padding: 1.5rem;
   }
   
   .p-dialog-footer {
     background: var(--p-surface-800);
     border-top: 1px solid var(--p-surface-700);
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* Light mode dialog */
+.light-mode .p-dialog {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  
+  .p-dialog-header {
+    background: var(--p-surface-0);
+    border-bottom: 1px solid var(--p-surface-200);
+  }
+  
+  .p-dialog-content {
+    background: var(--p-surface-0);
+  }
+  
+  .p-dialog-footer {
+    background: var(--p-surface-0);
+    border-top: 1px solid var(--p-surface-200);
   }
 }
 
@@ -172,7 +203,11 @@ body {
 
 .p-inputtext {
   background: var(--p-surface-900);
-  border-color: var(--p-surface-700);
+  border: 1px solid var(--p-surface-700);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   
   &:hover {
     border-color: var(--p-surface-600);
@@ -180,13 +215,23 @@ body {
   
   &:focus {
     border-color: var(--p-primary-500);
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: var(--p-surface-500);
   }
 }
 
 .p-textarea {
   background: var(--p-surface-900);
-  border-color: var(--p-surface-700);
+  border: 1px solid var(--p-surface-700);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  resize: vertical;
   
   &:hover {
     border-color: var(--p-surface-600);
@@ -194,7 +239,35 @@ body {
   
   &:focus {
     border-color: var(--p-primary-500);
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: var(--p-surface-500);
+  }
+}
+
+/* Light mode form elements */
+.light-mode {
+  .p-inputtext, .p-textarea {
+    background: var(--p-surface-0);
+    border-color: var(--p-surface-300);
+    
+    &:hover {
+      border-color: var(--p-surface-400);
+    }
+    
+    &::placeholder {
+      color: var(--p-surface-400);
+    }
+  }
+}
+
+/* Select/Dropdown styling */
+.p-select {
+  .p-select-label {
+    padding: 0.75rem 1rem;
   }
 }
 
@@ -259,3 +332,32 @@ body {
 
 /* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+/* Utility Classes (Tailwind-like) */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-auto { flex: 1 1 auto; }
+.items-center { align-items: center; }
+.justify-end { justify-content: flex-end; }
+.justify-center { justify-content: center; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mt-4 { margin-top: 1rem; }
+.w-full { width: 100%; }
+.w-24 { width: 6rem; }
+.block { display: block; }
+.font-semibold { font-weight: 600; }
+
+/* Text Colors */
+.text-surface-400 { color: var(--p-surface-400); }
+.text-surface-500 { color: var(--p-surface-500); }
+.text-surface-600 { color: var(--p-surface-600); }
+
+/* Dark mode text variants */
+.dark-mode .dark\:text-surface-400 { color: var(--p-surface-400); }
+.light-mode .dark\:text-surface-400 { color: var(--p-surface-500); }

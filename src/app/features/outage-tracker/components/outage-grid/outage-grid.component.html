@@ -165,9 +165,11 @@
   header="Add Category" 
   [(visible)]="showAddCategoryDialog" 
   [modal]="true"
-  [style]="{width: '400px'}">
-  <div class="dialog-content">
-    <label for="categoryName">Category Name</label>
+  [style]="{ width: '28rem' }"
+  [breakpoints]="{ '575px': '90vw' }">
+  <span class="text-surface-500 dark:text-surface-400 block mb-6">Create a new category to organize your applications.</span>
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="categoryName" class="font-semibold">Category Name</label>
     <input 
       id="categoryName"
       type="text" 
@@ -175,18 +177,20 @@
       [(ngModel)]="newCategoryName"
       placeholder="e.g., Servicing Core"
       (keyup.enter)="addCategory()"
+      autocomplete="off"
       class="w-full" />
   </div>
-  <ng-template pTemplate="footer">
+  <div class="flex justify-end gap-2">
     <p-button 
       label="Cancel" 
       severity="secondary" 
+      [text]="true"
       (onClick)="showAddCategoryDialog.set(false)" />
     <p-button 
       label="Add" 
       icon="pi pi-check" 
       (onClick)="addCategory()" />
-  </ng-template>
+  </div>
 </p-dialog>
 
 <!-- Edit Category Dialog -->
@@ -194,27 +198,31 @@
   header="Edit Category" 
   [(visible)]="showEditCategoryDialog" 
   [modal]="true"
-  [style]="{width: '400px'}">
-  <div class="dialog-content">
-    <label for="editCategoryName">Category Name</label>
+  [style]="{ width: '28rem' }"
+  [breakpoints]="{ '575px': '90vw' }">
+  <span class="text-surface-500 dark:text-surface-400 block mb-6">Update the category name.</span>
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="editCategoryName" class="font-semibold">Category Name</label>
     <input 
       id="editCategoryName"
       type="text" 
       pInputText 
       [(ngModel)]="editCategoryName"
       (keyup.enter)="saveCategory()"
+      autocomplete="off"
       class="w-full" />
   </div>
-  <ng-template pTemplate="footer">
+  <div class="flex justify-end gap-2">
     <p-button 
       label="Cancel" 
       severity="secondary" 
+      [text]="true"
       (onClick)="showEditCategoryDialog.set(false)" />
     <p-button 
       label="Save" 
       icon="pi pi-check" 
       (onClick)="saveCategory()" />
-  </ng-template>
+  </div>
 </p-dialog>
 
 <!-- Add Application Dialog -->
@@ -222,9 +230,11 @@
   header="Add Application" 
   [(visible)]="showAddAppDialog" 
   [modal]="true"
-  [style]="{width: '400px'}">
-  <div class="dialog-content">
-    <label for="appName">Application Name</label>
+  [style]="{ width: '28rem' }"
+  [breakpoints]="{ '575px': '90vw' }">
+  <span class="text-surface-500 dark:text-surface-400 block mb-6">Add a new application to this category.</span>
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="appName" class="font-semibold">Application Name</label>
     <input 
       id="appName"
       type="text" 
@@ -232,18 +242,20 @@
       [(ngModel)]="newAppName"
       placeholder="e.g., Spectrum"
       (keyup.enter)="addApplication()"
+      autocomplete="off"
       class="w-full" />
   </div>
-  <ng-template pTemplate="footer">
+  <div class="flex justify-end gap-2">
     <p-button 
       label="Cancel" 
       severity="secondary" 
+      [text]="true"
       (onClick)="showAddAppDialog.set(false)" />
     <p-button 
       label="Add" 
       icon="pi pi-check" 
       (onClick)="addApplication()" />
-  </ng-template>
+  </div>
 </p-dialog>
 
 <!-- Edit Application Dialog -->
@@ -251,27 +263,31 @@
   header="Edit Application" 
   [(visible)]="showEditAppDialog" 
   [modal]="true"
-  [style]="{width: '400px'}">
-  <div class="dialog-content">
-    <label for="editAppName">Application Name</label>
+  [style]="{ width: '28rem' }"
+  [breakpoints]="{ '575px': '90vw' }">
+  <span class="text-surface-500 dark:text-surface-400 block mb-6">Update the application name.</span>
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="editAppName" class="font-semibold">Application Name</label>
     <input 
       id="editAppName"
       type="text" 
       pInputText 
       [(ngModel)]="editAppName"
       (keyup.enter)="saveApplication()"
+      autocomplete="off"
       class="w-full" />
   </div>
-  <ng-template pTemplate="footer">
+  <div class="flex justify-end gap-2">
     <p-button 
       label="Cancel" 
       severity="secondary" 
+      [text]="true"
       (onClick)="showEditAppDialog.set(false)" />
     <p-button 
       label="Save" 
       icon="pi pi-check" 
       (onClick)="saveApplication()" />
-  </ng-template>
+  </div>
 </p-dialog>
 
 <!-- Outage Details Dialog -->
@@ -279,38 +295,39 @@
   header="Outage Details" 
   [(visible)]="showOutageDialog" 
   [modal]="true"
-  [style]="{width: '450px'}">
-  <div class="dialog-content">
-    <div class="field">
-      <label for="outageStatus">Status</label>
-      <p-select 
-        id="outageStatus"
-        [options]="outageStatusOptions" 
-        [(ngModel)]="outageDialogStatus"
-        optionLabel="label"
-        optionValue="value"
-        [style]="{width: '100%'}" />
-    </div>
-    <div class="field">
-      <label for="outageNotes">Notes</label>
-      <textarea 
-        id="outageNotes"
-        pTextarea 
-        [(ngModel)]="outageDialogNotes"
-        rows="4"
-        placeholder="Add details about the outage..."
-        class="w-full"></textarea>
-    </div>
+  [style]="{ width: '28rem' }"
+  [breakpoints]="{ '575px': '90vw' }">
+  <span class="text-surface-500 dark:text-surface-400 block mb-6">Update outage status and add notes.</span>
+  <div class="flex flex-col gap-2 mb-4">
+    <label for="outageStatus" class="font-semibold">Status</label>
+    <p-select 
+      id="outageStatus"
+      [options]="outageStatusOptions" 
+      [(ngModel)]="outageDialogStatus"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="w-full" />
   </div>
-  <ng-template pTemplate="footer">
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="outageNotes" class="font-semibold">Notes</label>
+    <textarea 
+      id="outageNotes"
+      pTextarea 
+      [(ngModel)]="outageDialogNotes"
+      rows="4"
+      placeholder="Add details about the outage..."
+      class="w-full"></textarea>
+  </div>
+  <div class="flex justify-end gap-2">
     <p-button 
       label="Cancel" 
       severity="secondary" 
+      [text]="true"
       (onClick)="showOutageDialog.set(false)" />
     <p-button 
       label="Save" 
       icon="pi pi-check" 
       (onClick)="saveOutageDialog()" />
-  </ng-template>
+  </div>
 </p-dialog>
 
