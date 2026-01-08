@@ -1,5 +1,5 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, computed, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OutageTrackerService } from '../../../../core/services/outage-tracker.service';
 import { OutageStatus, CategoryWithApplications } from '../../../../core/models/outage.model';
@@ -18,6 +18,7 @@ import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'app-outage-grid',
@@ -35,16 +36,47 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TextareaModule,
     RippleModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ToggleSwitchModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './outage-grid.component.html',
   styleUrl: './outage-grid.component.scss'
 })
-export class OutageGridComponent {
+export class OutageGridComponent implements OnInit {
   trackerService = inject(OutageTrackerService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private platformId = inject(PLATFORM_ID);
+
+  // Theme
+  isDarkMode = true;
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      // Check localStorage for saved preference, default to dark
+      const savedTheme = localStorage.getItem('theme');
+      this.isDarkMode = savedTheme ? savedTheme === 'dark' : true;
+      this.applyTheme();
+    }
+  }
+
+  toggleTheme(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.applyTheme();
+      localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+    }
+  }
+
+  private applyTheme(): void {
+    if (this.isDarkMode) {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.classList.add('light-mode');
+    }
+  }
 
   // Dialog states
   showAddCategoryDialog = signal(false);

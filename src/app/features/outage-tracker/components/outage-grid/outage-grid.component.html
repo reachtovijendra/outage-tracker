@@ -9,10 +9,14 @@
       <span class="year-display">{{ trackerService.selectedYear() }}</span>
     </div>
     <div class="header-right">
+      <div class="theme-toggle">
+        <i class="pi pi-sun"></i>
+        <p-toggleswitch [(ngModel)]="isDarkMode" (onChange)="toggleTheme()" />
+        <i class="pi pi-moon"></i>
+      </div>
       <p-button 
         icon="pi pi-plus" 
         label="Add Category" 
-        severity="secondary"
         (onClick)="openAddCategoryDialog()" />
     </div>
   </div>

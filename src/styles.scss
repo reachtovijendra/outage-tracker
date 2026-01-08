@@ -40,6 +40,40 @@
   color-scheme: dark;
 }
 
+/* Light Mode Colors */
+.light-mode {
+  --p-surface-0: #ffffff;
+  --p-surface-50: #fafafa;
+  --p-surface-100: #f4f4f5;
+  --p-surface-200: #e4e4e7;
+  --p-surface-300: #d4d4d8;
+  --p-surface-400: #a1a1aa;
+  --p-surface-500: #71717a;
+  --p-surface-600: #52525b;
+  --p-surface-700: #e4e4e7;
+  --p-surface-800: #f4f4f5;
+  --p-surface-900: #fafafa;
+  --p-surface-950: #ffffff;
+  
+  --p-text-color: #18181b;
+  --p-text-muted-color: #71717a;
+  
+  --p-primary-50: #eef2ff;
+  --p-primary-100: #e0e7ff;
+  --p-primary-200: #c7d2fe;
+  --p-primary-300: #a5b4fc;
+  --p-primary-400: #818cf8;
+  --p-primary-500: #6366f1;
+  --p-primary-600: #4f46e5;
+  --p-primary-700: #4338ca;
+  --p-primary-800: #3730a3;
+  --p-primary-900: #312e81;
+  --p-primary-color: #6366f1;
+  --p-primary-contrast-color: #ffffff;
+  
+  color-scheme: light;
+}
+
 /* Global Styles */
 * {
   box-sizing: border-box;

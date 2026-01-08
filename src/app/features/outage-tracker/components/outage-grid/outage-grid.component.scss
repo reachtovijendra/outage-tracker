@@ -46,6 +46,34 @@ $app-col-width: 220px;
       font-weight: 500;
     }
   }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: var(--p-surface-800);
+      border-radius: 2rem;
+
+      i {
+        font-size: 0.875rem;
+        color: var(--p-text-muted-color);
+
+        &.pi-sun {
+          color: #f59e0b;
+        }
+
+        &.pi-moon {
+          color: #8b5cf6;
+        }
+      }
+    }
+  }
 }
 
 // Month Tabs
