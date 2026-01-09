@@ -147,7 +147,8 @@ export class ReleaseGridComponent implements OnInit {
       
       let screenshotUrl: string | undefined;
       if (this.newRelease.screenshotFile) {
-        screenshotUrl = await this.firebaseService.uploadScreenshot(this.newRelease.screenshotFile);
+        // Use local assets path instead of Firebase Storage
+        screenshotUrl = `/assets/screenshots/${this.newRelease.screenshotFile.name}`;
       }
 
       await this.firebaseService.addRelease({
@@ -199,7 +200,8 @@ export class ReleaseGridComponent implements OnInit {
       
       let screenshotUrl = this.editForm.existingScreenshotUrl || undefined;
       if (this.editForm.screenshotFile) {
-        screenshotUrl = await this.firebaseService.uploadScreenshot(this.editForm.screenshotFile);
+        // Use local assets path instead of Firebase Storage
+        screenshotUrl = `/assets/screenshots/${this.editForm.screenshotFile.name}`;
       }
 
       await this.firebaseService.updateRelease(this.editingRelease.id!, {
