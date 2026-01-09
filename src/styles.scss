@@ -90,6 +90,10 @@ html, body {
   overflow: hidden; /* Prevent page-level scrolling */
 }
 
+html {
+  font-size: 14px; /* Reduced from 16px for more compact look */
+}
+
 body {
   font-family: var(--app-font-family);
   background-color: var(--p-surface-950);
