@@ -1,5 +1,14 @@
 @use 'sass:color';
 
+// Host element
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+}
+
 // Variables
 $grid-border-color: var(--p-surface-700);
 $cell-bg: var(--p-surface-800);
@@ -13,13 +22,16 @@ $cell-size: 28px;
 $app-col-width: 220px;
 
 .outage-grid-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   padding: 1.5rem;
-  max-width: 100%;
-  overflow-x: auto;
+  overflow: hidden; /* Prevent container from scrolling */
 }
 
 // Header
 .grid-header {
+  flex-shrink: 0; /* Don't shrink */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,10 +52,34 @@ $app-col-width: 220px;
       letter-spacing: -0.5px;
     }
 
-    .year-display {
-      font-size: 1.25rem;
-      color: var(--p-text-muted-color);
-      font-weight: 500;
+    ::ng-deep .year-dropdown {
+      min-width: 7rem;
+      
+      .p-select-label {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--p-text-color);
+        padding: 0.25rem 0.5rem;
+      }
+      
+      &.p-select {
+        background: transparent;
+        border: 1px solid var(--p-surface-600);
+        border-radius: 6px;
+        
+        &:hover {
+          border-color: var(--p-primary-400);
+        }
+        
+        &.p-focus {
+          border-color: var(--p-primary-400);
+          box-shadow: 0 0 0 2px rgba(var(--p-primary-500-rgb), 0.2);
+        }
+      }
+      
+      .p-select-dropdown {
+        color: var(--p-text-muted-color);
+      }
     }
   }
 
@@ -79,6 +115,7 @@ $app-col-width: 220px;
 
 // Month Tabs
 .month-tabs {
+  flex-shrink: 0; /* Don't shrink */
   display: flex;
   gap: 0.25rem;
   margin-bottom: 1.5rem;
@@ -112,9 +149,11 @@ $app-col-width: 220px;
 
 // Grid Wrapper
 .grid-wrapper {
-  overflow-x: auto;
+  flex: 1; /* Take remaining space */
+  overflow: auto; /* Only this element scrolls */
   border-radius: 8px;
   border: 1px solid $grid-border-color;
+  min-height: 0; /* Important for flex children with overflow */
 }
 
 // Main Table
@@ -138,6 +177,10 @@ $app-col-width: 220px;
 
     tr {
       background: $header-bg;
+    }
+
+    th {
+      background: $header-bg; // Ensure background on sticky scroll
     }
 
     .system-header {
@@ -186,14 +229,9 @@ $app-col-width: 220px;
 
         .category-actions {
           display: flex;
+          align-items: center;
           gap: 0.25rem;
-          opacity: 0;
-          transition: opacity 0.2s ease;
         }
-      }
-
-      &:hover .category-actions {
-        opacity: 1;
       }
     }
   }
@@ -226,14 +264,9 @@ $app-col-width: 220px;
 
         .app-actions {
           display: flex;
-          gap: 0.125rem;
-          opacity: 0;
-          transition: opacity 0.2s ease;
+          align-items: center;
+          gap: 0.25rem;
         }
-      }
-
-      &:hover .app-actions {
-        opacity: 1;
       }
     }
 
@@ -301,6 +334,7 @@ $app-col-width: 220px;
 
 // Legend
 .legend {
+  flex-shrink: 0; /* Don't shrink */
   display: flex;
   align-items: center;
   gap: 1.5rem;

@@ -71,6 +71,17 @@ export class OutageTrackerService {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
+  // Year options for dropdown (current year + 5 past years)
+  yearOptions = computed(() => {
+    const currentYear = new Date().getFullYear();
+    const years: { label: string; value: number }[] = [];
+    for (let i = 0; i <= 5; i++) {
+      const year = currentYear - i;
+      years.push({ label: year.toString(), value: year });
+    }
+    return years;
+  });
+
   constructor() {
     // Load outages when month/year changes
     this.loadOutages();

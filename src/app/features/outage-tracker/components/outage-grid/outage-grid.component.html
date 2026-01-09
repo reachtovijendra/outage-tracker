@@ -6,7 +6,13 @@
   <div class="grid-header">
     <div class="header-left">
       <h1>Outage Tracker</h1>
-      <span class="year-display">{{ trackerService.selectedYear() }}</span>
+      <p-select 
+        [options]="trackerService.yearOptions()" 
+        [(ngModel)]="selectedYear"
+        optionLabel="label"
+        optionValue="value"
+        (onChange)="onYearChange($event)"
+        styleClass="year-dropdown" />
     </div>
     <div class="header-right">
       <div class="theme-toggle">
@@ -55,30 +61,27 @@
               <div class="category-content">
                 <span class="category-name">{{ category.name }}</span>
                 <div class="category-actions">
-                  <p-button 
-                    icon="pi pi-plus" 
-                    [rounded]="true" 
-                    [text]="true" 
-                    size="small"
-                    severity="secondary"
+                  <button 
+                    class="action-icon-btn"
                     pTooltip="Add Application"
-                    (onClick)="openAddAppDialog(category.id, $event)" />
-                  <p-button 
-                    icon="pi pi-pencil" 
-                    [rounded]="true" 
-                    [text]="true" 
-                    size="small"
-                    severity="secondary"
+                    tooltipPosition="top"
+                    (click)="openAddAppDialog(category.id, $event)">
+                    <i class="pi pi-plus"></i>
+                  </button>
+                  <button 
+                    class="action-icon-btn"
                     pTooltip="Edit Category"
-                    (onClick)="openEditCategoryDialog(category, $event)" />
-                  <p-button 
-                    icon="pi pi-trash" 
-                    [rounded]="true" 
-                    [text]="true" 
-                    size="small"
-                    severity="danger"
+                    tooltipPosition="top"
+                    (click)="openEditCategoryDialog(category, $event)">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <button 
+                    class="action-icon-btn action-icon-btn-danger"
                     pTooltip="Delete Category"
-                    (onClick)="confirmDeleteCategory(category, $event)" />
+                    tooltipPosition="top"
+                    (click)="confirmDeleteCategory(category, $event)">
+                    <i class="pi pi-trash"></i>
+                  </button>
                 </div>
               </div>
             </td>
@@ -90,22 +93,20 @@
                 <div class="app-content">
                   <span class="app-name">{{ app.name }}</span>
                   <div class="app-actions">
-                    <p-button 
-                      icon="pi pi-pencil" 
-                      [rounded]="true" 
-                      [text]="true" 
-                      size="small"
-                      severity="secondary"
+                    <button 
+                      class="action-icon-btn"
                       pTooltip="Edit Application"
-                      (onClick)="openEditAppDialog(app.id, app.name, $event)" />
-                    <p-button 
-                      icon="pi pi-trash" 
-                      [rounded]="true" 
-                      [text]="true" 
-                      size="small"
-                      severity="danger"
+                      tooltipPosition="top"
+                      (click)="openEditAppDialog(app.id, app.name, $event)">
+                      <i class="pi pi-pencil"></i>
+                    </button>
+                    <button 
+                      class="action-icon-btn action-icon-btn-danger"
                       pTooltip="Delete Application"
-                      (onClick)="confirmDeleteApp(app.id, app.name, $event)" />
+                      tooltipPosition="top"
+                      (click)="confirmDeleteApp(app.id, app.name, $event)">
+                      <i class="pi pi-trash"></i>
+                    </button>
                   </div>
                 </div>
               </td>

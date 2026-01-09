@@ -52,7 +52,12 @@ export class OutageGridComponent implements OnInit {
   // Theme
   isDarkMode = true;
 
+  // Year selection
+  selectedYear = new Date().getFullYear();
+
   ngOnInit(): void {
+    // Sync selectedYear with service
+    this.selectedYear = this.trackerService.selectedYear();
     if (isPlatformBrowser(this.platformId)) {
       // Check localStorage for saved preference, default to dark
       const savedTheme = localStorage.getItem('theme');
@@ -66,6 +71,10 @@ export class OutageGridComponent implements OnInit {
       this.applyTheme();
       localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
     }
+  }
+
+  onYearChange(event: { value: number }): void {
+    this.trackerService.selectYear(event.value);
   }
 
   private applyTheme(): void {
