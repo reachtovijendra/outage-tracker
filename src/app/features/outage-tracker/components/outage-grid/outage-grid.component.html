@@ -15,6 +15,10 @@
         styleClass="year-dropdown" />
     </div>
     <div class="header-right">
+      <a routerLink="/releases" class="nav-link" pTooltip="View Release History">
+        <i class="pi pi-history"></i>
+        Releases
+      </a>
       <div class="theme-toggle">
         <i class="pi pi-sun"></i>
         <p-toggleswitch [(ngModel)]="isDarkMode" (onChange)="toggleTheme()" />

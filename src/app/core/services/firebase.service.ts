@@ -14,6 +14,13 @@ import {
   writeBatch,
   Timestamp
 } from '@angular/fire/firestore';
+import {
+  Storage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
+} from '@angular/fire/storage';
 import { Observable, map, from } from 'rxjs';
 import {
   Category,
@@ -21,12 +28,14 @@ import {
   Outage,
   OutageStatus
 } from '../models/outage.model';
+import { Release } from '../models/release.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   private firestore = inject(Firestore);
+  private storage = inject(Storage);
 
   // Categories
   getCategories(): Observable<Category[]> {
@@ -191,6 +200,71 @@ export class FirebaseService {
       batch.update(ref, { order: app.order, updatedAt: Timestamp.now() });
     });
     await batch.commit();
+  }
+
+  // Releases
+  getReleases(): Observable<Release[]> {
+    const releasesRef = collection(this.firestore, 'releases');
+    const q = query(releasesRef, orderBy('deploymentTime', 'desc'));
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((releases: any[]) =>
+        releases.map(release => ({
+          ...release,
+          deploymentTime: release.deploymentTime?.toDate() || new Date(),
+          createdAt: release.createdAt?.toDate() || new Date(),
+          updatedAt: release.updatedAt?.toDate() || new Date()
+        }))
+      )
+    );
+  }
+
+  async addRelease(release: Omit<Release, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
+    const releasesRef = collection(this.firestore, 'releases');
+    const docRef = await addDoc(releasesRef, {
+      ...release,
+      deploymentTime: Timestamp.fromDate(release.deploymentTime),
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now()
+    });
+    return docRef.id;
+  }
+
+  async updateRelease(id: string, updates: Partial<Release>): Promise<void> {
+    const releaseRef = doc(this.firestore, 'releases', id);
+    const updateData: any = {
+      ...updates,
+      updatedAt: Timestamp.now()
+    };
+    if (updates.deploymentTime) {
+      updateData.deploymentTime = Timestamp.fromDate(updates.deploymentTime);
+    }
+    await updateDoc(releaseRef, updateData);
+  }
+
+  async deleteRelease(id: string): Promise<void> {
+    const releaseRef = doc(this.firestore, 'releases', id);
+    await deleteDoc(releaseRef);
+  }
+
+  // Screenshot Storage
+  async uploadScreenshot(file: File): Promise<string> {
+    const timestamp = Date.now();
+    const fileName = `screenshots/${timestamp}_${file.name}`;
+    const storageRef = ref(this.storage, fileName);
+    
+    await uploadBytes(storageRef, file);
+    const downloadUrl = await getDownloadURL(storageRef);
+    
+    return downloadUrl;
+  }
+
+  async deleteScreenshot(url: string): Promise<void> {
+    try {
+      const storageRef = ref(this.storage, url);
+      await deleteObject(storageRef);
+    } catch (error) {
+      console.warn('Could not delete screenshot from storage:', error);
+    }
   }
 }
 

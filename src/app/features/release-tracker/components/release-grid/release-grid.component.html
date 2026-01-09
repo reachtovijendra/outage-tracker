@@ -1,0 +1,203 @@
+<p-toast />
+<p-confirmDialog />
+
+<div class="release-grid-container">
+  <!-- Header -->
+  <div class="grid-header">
+    <div class="header-left">
+      <h1>Release Tracker</h1>
+    </div>
+    <div class="header-right">
+      <a routerLink="/" class="nav-link" pTooltip="Go to Outage Tracker">
+        <i class="pi pi-arrow-left"></i>
+        Outage Tracker
+      </a>
+      <div class="theme-toggle">
+        <i class="pi pi-sun"></i>
+        <p-toggleswitch [(ngModel)]="isDarkMode" (onChange)="toggleTheme()" />
+        <i class="pi pi-moon"></i>
+      </div>
+      <p-button 
+        label="Add Release" 
+        icon="pi pi-plus" 
+        (onClick)="openAddDialog()" />
+    </div>
+  </div>
+
+  <!-- Releases Table -->
+  <div class="table-wrapper">
+    <p-table 
+      [value]="releases()" 
+      [loading]="loading()"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      styleClass="p-datatable-sm"
+      [tableStyle]="{ 'min-width': '50rem' }">
+      
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 50%">Change Summary</th>
+          <th style="width: 20%">Deployment Time</th>
+          <th style="width: 15%">Screenshot</th>
+          <th style="width: 15%">Actions</th>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="body" let-release>
+        <tr>
+          <td class="change-summary">{{ release.changeSummary }}</td>
+          <td class="deployment-time">{{ release.deploymentTime | date:'MMM d, yyyy h:mm a' }}</td>
+          <td class="screenshot-cell">
+            @if (release.screenshotUrl) {
+              <p-button 
+                icon="pi pi-external-link" 
+                [text]="true"
+                severity="info"
+                pTooltip="Open Screenshot"
+                (onClick)="openScreenshot(release.screenshotUrl)" />
+            } @else {
+              <span class="no-screenshot">-</span>
+            }
+          </td>
+          <td class="actions-cell">
+            <div class="action-buttons">
+              <p-button 
+                icon="pi pi-pencil" 
+                [text]="true"
+                severity="secondary"
+                pTooltip="Edit"
+                (onClick)="openEditDialog(release)" />
+              <p-button 
+                icon="pi pi-trash" 
+                [text]="true"
+                severity="danger"
+                pTooltip="Delete"
+                (onClick)="confirmDelete(release)" />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4">
+            <div class="empty-state">
+              <i class="pi pi-inbox"></i>
+              <p>No releases recorded yet</p>
+              <p-button label="Add Your First Release" icon="pi pi-plus" (onClick)="openAddDialog()" />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Add Release Dialog -->
+<p-dialog 
+  header="Add Release" 
+  [(visible)]="showAddDialog" 
+  [modal]="true"
+  [style]="{ width: '32rem' }"
+  [breakpoints]="{ '575px': '90vw' }">
+  
+  <span class="text-surface-500 dark:text-surface-400 block mb-6">
+    Record a new release deployment.
+  </span>
+  
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="changeSummary" class="font-semibold">Change Summary *</label>
+    <textarea 
+      pTextarea
+      id="changeSummary"
+      [(ngModel)]="newRelease.changeSummary"
+      placeholder="Brief description of what was released..."
+      rows="3"
+      class="w-full"></textarea>
+  </div>
+  
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="screenshot" class="font-semibold">Screenshot (Playwright test image)</label>
+    <div class="file-upload-wrapper">
+      <input 
+        type="file" 
+        id="screenshot"
+        accept="image/*"
+        (change)="onScreenshotSelected($event)"
+        class="file-input" />
+      <div class="file-upload-display">
+        <i class="pi pi-image"></i>
+        <span>{{ newRelease.screenshotFile ? newRelease.screenshotFile.name : 'Choose a screenshot file...' }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <p-button label="Cancel" severity="secondary" (onClick)="showAddDialog = false" [disabled]="uploading()" />
+      <p-button 
+        [label]="uploading() ? 'Uploading...' : 'Add'" 
+        (onClick)="addRelease()" 
+        [loading]="uploading()" />
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Edit Release Dialog -->
+<p-dialog 
+  header="Edit Release" 
+  [(visible)]="showEditDialog" 
+  [modal]="true"
+  [style]="{ width: '32rem' }"
+  [breakpoints]="{ '575px': '90vw' }">
+  
+  <span class="text-surface-500 dark:text-surface-400 block mb-6">
+    Update the release details.
+  </span>
+  
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="editChangeSummary" class="font-semibold">Change Summary *</label>
+    <textarea 
+      pTextarea
+      id="editChangeSummary"
+      [(ngModel)]="editForm.changeSummary"
+      placeholder="Brief description of what was released..."
+      rows="3"
+      class="w-full"></textarea>
+  </div>
+  
+  <div class="flex flex-col gap-2 mb-6">
+    <label for="editScreenshot" class="font-semibold">Screenshot (Playwright test image)</label>
+    @if (editForm.existingScreenshotUrl) {
+      <div class="existing-screenshot">
+        <i class="pi pi-check-circle"></i>
+        <span>Screenshot attached</span>
+        <a [href]="editForm.existingScreenshotUrl" target="_blank" class="view-link">View</a>
+      </div>
+    }
+    <div class="file-upload-wrapper">
+      <input 
+        type="file" 
+        id="editScreenshot"
+        accept="image/*"
+        (change)="onEditScreenshotSelected($event)"
+        class="file-input" />
+      <div class="file-upload-display">
+        <i class="pi pi-image"></i>
+        <span>{{ editForm.screenshotFile ? editForm.screenshotFile.name : 'Choose a new screenshot...' }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <p-button label="Cancel" severity="secondary" (onClick)="showEditDialog = false" [disabled]="uploading()" />
+      <p-button 
+        [label]="uploading() ? 'Uploading...' : 'Save'" 
+        (onClick)="updateRelease()" 
+        [loading]="uploading()" />
+    </div>
+  </ng-template>
+</p-dialog>
+

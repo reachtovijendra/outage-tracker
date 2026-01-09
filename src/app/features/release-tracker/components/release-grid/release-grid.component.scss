@@ -1,0 +1,342 @@
+// Host element
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+}
+
+// Container
+.release-grid-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+// Header
+.grid-header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--p-surface-700);
+
+  .header-left {
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--p-text-color);
+      letter-spacing: -0.5px;
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.75rem;
+      color: var(--p-text-muted-color);
+      text-decoration: none;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: var(--p-text-color);
+        background: var(--p-surface-800);
+      }
+
+      i {
+        font-size: 0.8rem;
+      }
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.6rem;
+      background: var(--p-surface-800);
+      border-radius: 2rem;
+
+      i {
+        font-size: 0.8rem;
+        color: var(--p-text-muted-color);
+
+        &.pi-sun {
+          color: #f59e0b;
+        }
+
+        &.pi-moon {
+          color: #8b5cf6;
+        }
+      }
+    }
+  }
+}
+
+// Table wrapper
+.table-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border-radius: 8px;
+  border: 1px solid var(--p-surface-700);
+
+  ::ng-deep {
+    .p-datatable {
+      .p-datatable-header {
+        background: var(--p-surface-900);
+        border: none;
+      }
+
+      .p-datatable-thead > tr > th {
+        background: var(--p-surface-900);
+        color: var(--p-text-color);
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-color: var(--p-surface-700);
+        padding: 0.75rem 1rem;
+      }
+
+      .p-datatable-tbody > tr {
+        background: var(--p-surface-800);
+        
+        &:hover {
+          background: var(--p-surface-700);
+        }
+
+        > td {
+          border-color: var(--p-surface-700);
+          padding: 0.75rem 1rem;
+          font-size: 0.85rem;
+          color: var(--p-text-color);
+        }
+      }
+
+      .p-paginator {
+        background: var(--p-surface-900);
+        border-color: var(--p-surface-700);
+        padding: 0.5rem;
+
+        .p-paginator-element {
+          color: var(--p-text-muted-color);
+          
+          &:hover {
+            background: var(--p-surface-700);
+            color: var(--p-text-color);
+          }
+
+          &.p-highlight {
+            background: var(--p-primary-color);
+            color: var(--p-primary-contrast-color);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Table cells
+.change-summary {
+  line-height: 1.5;
+}
+
+.deployment-time {
+  white-space: nowrap;
+  color: var(--p-text-muted-color) !important;
+}
+
+.screenshot-cell {
+  text-align: center;
+
+  .no-screenshot {
+    color: var(--p-text-muted-color);
+  }
+}
+
+.actions-cell {
+  .action-buttons {
+    display: flex;
+    gap: 0.25rem;
+    justify-content: center;
+
+    .p-button {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
+// Empty state
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem;
+  text-align: center;
+
+  i {
+    font-size: 2.5rem;
+    color: var(--p-text-muted-color);
+  }
+
+  p {
+    margin: 0;
+    color: var(--p-text-muted-color);
+    font-size: 0.9rem;
+  }
+}
+
+// File upload styling
+.file-upload-wrapper {
+  position: relative;
+  
+  .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .file-upload-display {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--p-surface-800);
+    border: 1px dashed var(--p-surface-600);
+    border-radius: 6px;
+    color: var(--p-text-muted-color);
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    
+    i {
+      font-size: 1.25rem;
+      color: var(--p-primary-400);
+    }
+    
+    &:hover {
+      border-color: var(--p-primary-400);
+      background: var(--p-surface-700);
+    }
+  }
+}
+
+.existing-screenshot {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--p-surface-800);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  
+  i {
+    color: var(--p-green-500);
+  }
+  
+  span {
+    color: var(--p-text-muted-color);
+  }
+  
+  .view-link {
+    margin-left: auto;
+    color: var(--p-primary-400);
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Light mode adjustments
+:host-context(.light-mode) {
+  .grid-header {
+    border-bottom-color: var(--p-surface-200);
+
+    .header-right {
+      .nav-link {
+        &:hover {
+          background: var(--p-surface-100);
+        }
+      }
+
+      .theme-toggle {
+        background: var(--p-surface-100);
+      }
+    }
+  }
+
+  .table-wrapper {
+    border-color: var(--p-surface-200);
+
+    ::ng-deep {
+      .p-datatable {
+        .p-datatable-thead > tr > th {
+          background: var(--p-surface-50);
+          border-color: var(--p-surface-200);
+        }
+
+        .p-datatable-tbody > tr {
+          background: var(--p-surface-0);
+          
+          &:hover {
+            background: var(--p-surface-50);
+          }
+
+          > td {
+            border-color: var(--p-surface-200);
+          }
+        }
+
+        .p-paginator {
+          background: var(--p-surface-50);
+          border-color: var(--p-surface-200);
+
+          .p-paginator-element {
+            &:hover {
+              background: var(--p-surface-100);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .file-upload-wrapper {
+    .file-upload-display {
+      background: var(--p-surface-50);
+      border-color: var(--p-surface-300);
+      
+      &:hover {
+        background: var(--p-surface-100);
+      }
+    }
+  }
+
+  .existing-screenshot {
+    background: var(--p-surface-50);
+  }
+}
+

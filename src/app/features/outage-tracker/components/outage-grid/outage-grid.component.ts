@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { OutageTrackerService } from '../../../../core/services/outage-tracker.service';
 import { OutageStatus, CategoryWithApplications } from '../../../../core/models/outage.model';
 
@@ -26,6 +27,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     TableModule,
     ButtonModule,
     TooltipModule,

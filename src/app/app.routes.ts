@@ -9,6 +9,13 @@ export const routes: Routes = [
       )
   },
   {
+    path: 'releases',
+    loadComponent: () =>
+      import('./features/release-tracker/components/release-grid/release-grid.component').then(
+        m => m.ReleaseGridComponent
+      )
+  },
+  {
     path: '**',
     redirectTo: ''
   }
