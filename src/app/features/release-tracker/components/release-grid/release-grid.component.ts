@@ -118,8 +118,8 @@ export class ReleaseGridComponent implements OnInit {
       { name: 'Prompt Understanding', completed: true },
       { name: 'Coding', completed: true },
       { name: 'Testing', completed: true },
-      { name: 'Code Review', completed: false },
-      { name: 'Deployment', completed: false }
+      { name: 'Code Review', completed: true },
+      { name: 'Deployment Initiated', completed: true }
     ];
   }
 
