@@ -45,10 +45,13 @@
       </ng-template>
       
       <ng-template pTemplate="body" let-release>
-        <tr>
-          <td class="change-summary">{{ release.changeSummary }}</td>
+        <tr class="release-row" [class.expanded]="isRowExpanded(release.id)" (click)="toggleRowExpansion(release.id)">
+          <td class="change-summary">
+            <i class="pi" [ngClass]="isRowExpanded(release.id) ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+            {{ release.changeSummary }}
+          </td>
           <td class="deployment-time">{{ release.deploymentTime | date:'MMM d, yyyy h:mm a' }}</td>
-          <td class="screenshot-cell">
+          <td class="screenshot-cell" (click)="$event.stopPropagation()">
             @if (release.screenshotUrl) {
               <p-button 
                 icon="pi pi-external-link" 
@@ -60,7 +63,7 @@
               <span class="no-screenshot">-</span>
             }
           </td>
-          <td class="actions-cell">
+          <td class="actions-cell" (click)="$event.stopPropagation()">
             <div class="action-buttons">
               <p-button 
                 icon="pi pi-pencil" 
@@ -77,6 +80,42 @@
             </div>
           </td>
         </tr>
+        @if (isRowExpanded(release.id)) {
+          <tr class="sdlc-phases-row">
+            <td colspan="4">
+              <div class="sdlc-phases-container">
+                <table class="sdlc-table">
+                  <thead>
+                    <tr>
+                      <th>SDLC Phase</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (phase of release.sdlcPhases; track phase.name) {
+                      <tr>
+                        <td class="phase-name">{{ phase.name }}</td>
+                        <td class="phase-status">
+                          @if (phase.completed) {
+                            <span class="status-badge completed">
+                              <i class="pi pi-check-circle"></i>
+                              Done
+                            </span>
+                          } @else {
+                            <span class="status-badge pending">
+                              <i class="pi pi-clock"></i>
+                              Pending
+                            </span>
+                          }
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        }
       </ng-template>
       
       <ng-template pTemplate="emptymessage">

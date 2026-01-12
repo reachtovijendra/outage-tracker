@@ -151,8 +151,24 @@
 }
 
 // Table cells
+.release-row {
+  cursor: pointer;
+  transition: background 0.2s ease;
+  
+  &.expanded {
+    background: var(--p-surface-700) !important;
+  }
+}
+
 .change-summary {
   line-height: 1.5;
+  
+  i {
+    margin-right: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--p-text-muted-color);
+    transition: transform 0.2s ease;
+  }
 }
 
 .deployment-time {
@@ -177,6 +193,101 @@
     .p-button {
       width: 2rem;
       height: 2rem;
+    }
+  }
+}
+
+// SDLC Phases expansion
+.sdlc-phases-row {
+  background: var(--p-surface-900) !important;
+  
+  > td {
+    padding: 0 !important;
+  }
+}
+
+.sdlc-phases-container {
+  padding: 1rem 2rem;
+  
+  .sdlc-table {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: var(--p-surface-800);
+    border-radius: 6px;
+    overflow: hidden;
+    
+    thead {
+      background: var(--p-surface-700);
+      
+      tr th {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--p-text-color);
+        border-bottom: 1px solid var(--p-surface-600);
+      }
+    }
+    
+    tbody {
+      tr {
+        border-bottom: 1px solid var(--p-surface-700);
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        td {
+          padding: 0.75rem 1rem;
+          font-size: 0.85rem;
+          
+          &.phase-name {
+            color: var(--p-text-color);
+            font-weight: 500;
+          }
+          
+          &.phase-status {
+            text-align: center;
+            width: 150px;
+          }
+        }
+      }
+    }
+  }
+  
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    
+    i {
+      font-size: 0.85rem;
+    }
+    
+    &.completed {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--p-green-400);
+      
+      i {
+        color: var(--p-green-500);
+      }
+    }
+    
+    &.pending {
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--p-yellow-400);
+      
+      i {
+        color: var(--p-yellow-500);
+      }
     }
   }
 }
@@ -337,6 +448,34 @@
 
   .existing-screenshot {
     background: var(--p-surface-50);
+  }
+  
+  .release-row.expanded {
+    background: var(--p-surface-100) !important;
+  }
+  
+  .sdlc-phases-row {
+    background: var(--p-surface-50) !important;
+  }
+  
+  .sdlc-phases-container {
+    .sdlc-table {
+      background: var(--p-surface-0);
+      
+      thead {
+        background: var(--p-surface-100);
+        
+        tr th {
+          border-bottom-color: var(--p-surface-200);
+        }
+      }
+      
+      tbody {
+        tr {
+          border-bottom-color: var(--p-surface-200);
+        }
+      }
+    }
   }
 }
 

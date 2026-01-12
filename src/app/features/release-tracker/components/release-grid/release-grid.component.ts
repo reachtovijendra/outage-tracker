@@ -45,6 +45,7 @@ export class ReleaseGridComponent implements OnInit {
 
   releases = signal<Release[]>([]);
   loading = signal(true);
+  expandedRows = signal<Set<string>>(new Set());
 
   // Dialog state
   showAddDialog = false;
@@ -95,10 +96,42 @@ export class ReleaseGridComponent implements OnInit {
     }
   }
 
+  toggleRowExpansion(releaseId: string): void {
+    const expanded = this.expandedRows();
+    const newExpanded = new Set(expanded);
+    
+    if (newExpanded.has(releaseId)) {
+      newExpanded.delete(releaseId);
+    } else {
+      newExpanded.add(releaseId);
+    }
+    
+    this.expandedRows.set(newExpanded);
+  }
+
+  isRowExpanded(releaseId: string): boolean {
+    return this.expandedRows().has(releaseId);
+  }
+
+  private getDefaultSDLCPhases() {
+    return [
+      { name: 'Prompt Understanding', completed: true },
+      { name: 'Coding', completed: true },
+      { name: 'Testing', completed: true },
+      { name: 'Code Review', completed: false },
+      { name: 'Deployment', completed: false }
+    ];
+  }
+
   private loadReleases(): void {
     this.firebaseService.getReleases().subscribe({
       next: (releases) => {
-        this.releases.set(releases);
+        // Add default SDLC phases if not present
+        const releasesWithPhases = releases.map(release => ({
+          ...release,
+          sdlcPhases: release.sdlcPhases || this.getDefaultSDLCPhases()
+        }));
+        this.releases.set(releasesWithPhases);
         this.loading.set(false);
       },
       error: (err) => {
