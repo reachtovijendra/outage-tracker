@@ -1,10 +1,24 @@
 const { chromium } = require('C:\\Users\\vijendra.tadavarthy\\AppData\\Roaming\\npm\\node_modules\\@executeautomation\\playwright-mcp-server\\node_modules\\playwright');
+const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
 async function automateRelease(changeSummary, url = 'http://localhost:4200') {
   console.log('🚀 Starting release automation...');
   console.log(`📝 Change: ${changeSummary}`);
+
+  // Run automated code review (linting)
+  console.log('🔍 Running automated code review...');
+  let codeReviewPassed = false;
+  try {
+    execSync('npm run lint', { encoding: 'utf-8', stdio: 'pipe' });
+    codeReviewPassed = true;
+    console.log('✅ Code review passed - No linting errors');
+  } catch (error) {
+    codeReviewPassed = false;
+    console.log('⚠️  Code review failed - Linting errors found');
+    console.log(error.stdout || error.message);
+  }
 
   let browser;
   try {
@@ -61,7 +75,9 @@ async function automateRelease(changeSummary, url = 'http://localhost:4200') {
     
     // Step 4: Fill form
     console.log('✍️  Filling form...');
-    await page.fill('#changeSummary', changeSummary);
+    // Encode code review status in the summary (will be parsed by the component)
+    const summaryWithStatus = `${changeSummary}[CODE_REVIEW:${codeReviewPassed ? 'PASS' : 'FAIL'}]`;
+    await page.fill('#changeSummary', summaryWithStatus);
     await page.waitForTimeout(500);
     
     // Step 5: Upload screenshot

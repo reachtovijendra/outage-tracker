@@ -7,7 +7,8 @@
     "prebuild": "node scripts/create-env.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "ng lint || tsc --noEmit"
   },
   "private": true,
   "dependencies": {

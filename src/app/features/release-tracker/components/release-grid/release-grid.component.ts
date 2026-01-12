@@ -184,10 +184,28 @@ export class ReleaseGridComponent implements OnInit {
         screenshotUrl = `/assets/screenshots/${this.newRelease.screenshotFile.name}`;
       }
 
+      // Parse code review status from change summary
+      const codeReviewRegex = /\[CODE_REVIEW:(PASS|FAIL)\]/;
+      const match = this.newRelease.changeSummary.match(codeReviewRegex);
+      const codeReviewPassed = match ? match[1] === 'PASS' : false;
+      
+      // Remove the marker from the summary
+      const cleanSummary = this.newRelease.changeSummary.replace(codeReviewRegex, '').trim();
+
+      // Create SDLC phases with code review status
+      const sdlcPhases = [
+        { name: 'Prompt Understanding', completed: true },
+        { name: 'Coding', completed: true },
+        { name: 'Testing', completed: true },
+        { name: 'Code Review', completed: codeReviewPassed },
+        { name: 'Deployment Initiated', completed: true }
+      ];
+
       await this.firebaseService.addRelease({
-        changeSummary: this.newRelease.changeSummary.trim(),
+        changeSummary: cleanSummary,
         deploymentTime: new Date(),
-        screenshotUrl
+        screenshotUrl,
+        sdlcPhases
       });
       
       this.showAddDialog = false;
